@@ -1,16 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
+import { NewTodo } from "./components/NewTodo";
 import { TodoList } from "./components/TodoList";
+import { TodoType } from "./todo.model";
 
-// function App() {
-//   return <div className="App"></div>;
-// }
+const App = () => {
+  const [todos, setTodos] = useState<TodoType[]>([]);
 
-const App: React.FC = () => {
-  const todos = [{ id: "t1", text: "TypeScriptコースの完了" }];
+  const todoAddHandler = (text: string) => {
+    setTodos((prevTodos) => [...prevTodos, { id: Math.random().toString(), text: text }]);
+  };
 
+  const todoDeleteHandler = (todoId: string) => {
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== todoId));
+  };
   return (
     <div className="App">
-      <TodoList items={todos} />
+      <NewTodo onAddTodo={todoAddHandler} />
+      <TodoList items={todos} onDeleteTodo={todoDeleteHandler} />
     </div>
   );
 };
